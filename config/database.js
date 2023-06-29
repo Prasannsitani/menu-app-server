@@ -1,10 +1,8 @@
 import mongoose from 'mongoose'
-
-const DB_URL =
-  'mongodb+srv://admin:admin@ar-menu-app-prod.kavmp2c.mongodb.net/restaurant?retryWrites=true&w=majority'
+import { Config } from './config.js'
 
 mongoose
-  .connect(DB_URL, {
+  .connect(Config.dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
