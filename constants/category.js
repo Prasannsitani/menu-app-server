@@ -1,0 +1,5 @@
+export const CATEGORY = {
+  INDIAN: 'INDIAN',
+  MEXICAN: 'MEXICAN',
+  ITALIAN: 'ITALIAN',
+}
