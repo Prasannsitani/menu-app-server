@@ -16,7 +16,10 @@ const FoodSchema = new mongoose.Schema(
     },
     tags: Array,
     favourites: {
-      isFavourite: true,
+      isFavourite: {
+        type: Boolean,
+        value: true,
+      },
       iconUrl: String,
     },
     category: {
