@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema(
     mobile_number: {
       type: String,
       required: true,
+      unique: true,
       validate: {
         validator: function (value) {
           return /^(\+?91|0)?[6789]\d{9}$/.test(value)
