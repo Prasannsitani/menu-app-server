@@ -1,14 +1,27 @@
 import express from 'express'
-import authMiddleware from '../middlewares/auth-middleware.js'
-import userModel from '../models/user-model.js'
+import User from '../models/user-model.js'
 
 const router = express.Router()
 
-router.get('/register', async (req, res, next) => {
+router.get('/login', async (req, res, next) => {
   try {
-    const user = new userModel(req.body)
-    await user.save()
-    res.status(201).json({ message: 'User registered successfully' })
+    User.findOne({ mobile_number: req.body.mobile_number }).then(user => {
+      if (user) {
+        res.status(200).json({
+          message: 'Login successful',
+        })
+      } else {
+        const user = new User(req.body)
+        user
+          .save()
+          .then(() => {
+            res.status(201).json({ message: 'Login successful' })
+          })
+          .catch(error => {
+            res.status(500).json({ error: error._message })
+          })
+      }
+    })
   } catch (error) {
     res.status(500).json({ error: error._message })
   }
