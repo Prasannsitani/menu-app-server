@@ -3,8 +3,13 @@ import { CATEGORY } from '../constants/category.js'
 
 const FoodSchema = new mongoose.Schema(
   {
-    name: String,
-    iconUrl: String,
+    name: {
+      type: String,
+      required: true,
+    },
+    imageUrl: {
+      type: String,
+    },
     rating: {
       iconUrl: String,
       value: Number,
