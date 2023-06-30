@@ -16,6 +16,22 @@ export const getFoodItemById = async (req, res, next) => {
   }
 }
 
+export const getFoodItemsByCategory = async (req, res, next) => {
+  try {
+    const foodItems = await FoodItem.find({ category: req.query.category })
+    if (foodItems && foodItems.length > 0) {
+      res.status(200).json({
+        data: foodItems,
+        error: null,
+      })
+    } else {
+      res.status(404).json({ error: 'No Data Found!!' })
+    }
+  } catch (error) {
+    res.status(500).json({ error: error._message })
+  }
+}
+
 export const postFoodItem = async (req, res, next) => {
   try {
     const foodItem = new FoodItem(req.body)
