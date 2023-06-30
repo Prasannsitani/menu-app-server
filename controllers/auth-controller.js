@@ -7,7 +7,7 @@ export const login = async (req, res, next) => {
       if (user) {
         const token = await Helper.jwtSignIn({ id: user.id })
         res.status(200).json({
-          message: 'Login successful',
+          userMessage: 'Login successful',
           jwt: token,
         })
       } else {
@@ -16,14 +16,21 @@ export const login = async (req, res, next) => {
           .save()
           .then(async newUser => {
             const token = await Helper.jwtSignIn({ id: newUser.id })
-            res.status(201).json({ message: 'Login successful', jwt: token })
+            res
+              .status(201)
+              .json({ userMessage: 'Login successful', jwt: token })
           })
           .catch(error => {
-            res.status(500).json({ error: error._message })
+            res.status(500).json({
+              error: error._message,
+              userMessage: 'Something went wrong',
+            })
           })
       }
     })
   } catch (error) {
-    res.status(500).json({ error: error._message })
+    res
+      .status(500)
+      .json({ error: error._message, userMessage: 'Something went wrong' })
   }
 }

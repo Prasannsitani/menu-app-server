@@ -9,10 +9,14 @@ export const getFoodItemById = async (req, res, next) => {
         error: null,
       })
     } else {
-      res.status(404).json({ error: 'No Data Found!!' })
+      res
+        .status(404)
+        .json({ error: 'Not Found', userMessage: 'No Data Found!!' })
     }
   } catch (error) {
-    res.status(500).json({ error: error._message })
+    res
+      .status(500)
+      .json({ error: error._message, userMessage: 'Something went wrong' })
   }
 }
 
@@ -25,10 +29,14 @@ export const getFoodItemsByCategory = async (req, res, next) => {
         error: null,
       })
     } else {
-      res.status(404).json({ error: 'No Data Found!!' })
+      res
+        .status(404)
+        .json({ error: 'Not Found', userMessage: 'No Data Found!!' })
     }
   } catch (error) {
-    res.status(500).json({ error: error._message })
+    res
+      .status(500)
+      .json({ error: error._message, userMessage: 'Something went wrong' })
   }
 }
 
@@ -38,6 +46,17 @@ export const postFoodItem = async (req, res, next) => {
     await foodItem.save()
     res.status(201).json({ message: 'Item saved successfully!!' })
   } catch (error) {
-    res.status(500).json({ error: error._message })
+    res
+      .status(500)
+      .json({ error: error._message, userMessage: 'Something went wrong' })
+  }
+}
+
+export const getHomeScreen = async (req, res, next) => {
+  try {
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error._message, userMessage: 'Something went wrong' })
   }
 }
