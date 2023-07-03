@@ -32,6 +32,10 @@ export const FoodSchema = new mongoose.Schema(
       enum: Object.values(CATEGORY),
       required: true,
     },
+    isRecommended: {
+      type: Boolean,
+      required: true,
+    },
   },
   { timestamps: true },
 )

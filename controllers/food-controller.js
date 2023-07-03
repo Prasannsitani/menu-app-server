@@ -1,5 +1,6 @@
 import FoodItem from '../models/food-model.js'
 import Config from '../models/config-model.js'
+import { SECTION_TYPE } from '../constants/section-type.js'
 
 export const getFoodItemById = async (req, res, next) => {
   try {
@@ -53,21 +54,42 @@ export const postFoodItem = async (req, res, next) => {
   }
 }
 
+// BFF Architecture
 export const getHomeScreen = async (req, res, next) => {
   try {
     const configs = await Config.findOne()
     const tabs = configs.home.tabs
-    const firstTab = await FoodItem.find({ category: tabs[0].id })
 
-    const updatedTabs = tabs.map((tab, index) => {
-      if (index === 0) {
-        return {
-          ...tab._doc,
-          data: firstTab,
-        }
-      }
-      return tab
-    })
+    const updatedTabs = await Promise.all(
+      tabs.map(async tab => {
+        const sections = tab._doc.sections
+
+        const updatedSections = await Promise.all(
+          sections.map(async section => {
+            if (section.type === SECTION_TYPE.RECOMMENDATION_SECTION) {
+              const data = await FoodItem.find({
+                category: tab.id,
+                isRecommended: true,
+              })
+
+              return { ...section._doc, data }
+            } else if (section.type === SECTION_TYPE.SEASONAL_SECTION) {
+              const data = await FoodItem.find({
+                category: tab.id,
+                isRecommended: false,
+              })
+
+              return { ...section._doc, data }
+            }
+
+            return section._doc
+          }),
+        )
+
+        return { ...tab._doc, sections: updatedSections }
+      }),
+    )
+
     res.status(200).json({
       data: {
         tabs: updatedTabs,
@@ -77,6 +99,6 @@ export const getHomeScreen = async (req, res, next) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: error._message, userMessage: 'Something went wrong' })
+      .json({ error: error.message, userMessage: 'Something went wrong' })
   }
 }
