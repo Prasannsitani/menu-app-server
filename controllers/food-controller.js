@@ -1,4 +1,5 @@
 import FoodItem from '../models/food-model.js'
+import Config from '../models/config-model.js'
 
 export const getFoodItemById = async (req, res, next) => {
   try {
@@ -54,6 +55,25 @@ export const postFoodItem = async (req, res, next) => {
 
 export const getHomeScreen = async (req, res, next) => {
   try {
+    const configs = await Config.findOne()
+    const tabs = configs.home.tabs
+    const firstTab = await FoodItem.find({ category: tabs[0].id })
+
+    const updatedTabs = tabs.map((tab, index) => {
+      if (index === 0) {
+        return {
+          ...tab._doc,
+          data: firstTab,
+        }
+      }
+      return tab
+    })
+    res.status(200).json({
+      data: {
+        tabs: updatedTabs,
+      },
+      error: null,
+    })
   } catch (error) {
     res
       .status(500)

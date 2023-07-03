@@ -18,7 +18,7 @@ const hashFunc = async ({ id }) => {
 const jwtSignIn = async ({ id }) => {
   const hash = await hashFunc({ id })
   const token = jwt.sign({ userId: hash }, Config.jwtSecret, {
-    expiresIn: '1h',
+    expiresIn: '365d',
   })
   return token
 }

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { CATEGORY } from '../constants/category.js'
 
-const FoodSchema = new mongoose.Schema(
+export const FoodSchema = new mongoose.Schema(
   {
     name: {
       type: String,
