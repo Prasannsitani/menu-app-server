@@ -5,6 +5,7 @@ import {
   getFoodItemById,
   getFoodItemsByCategory,
   getViewAllScreen,
+  getTabById,
 } from '../controllers/food-controller.js'
 
 const router = express.Router()
@@ -17,5 +18,6 @@ router.get('/view-all', getViewAllScreen)
 
 // Path Params Routes
 router.get('/:id', getFoodItemById)
+router.get('/tab/:id', getTabById)
 
 export default router
