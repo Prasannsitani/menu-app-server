@@ -9,10 +9,13 @@ import {
 
 const router = express.Router()
 
+// Normal Routes
+router.get('/', getFoodItemsByCategory)
 router.post('/', postFoodItem)
 router.get('/home', getHomeScreen)
-// router.get('/:id', getFoodItemById)
-router.get('/', getFoodItemsByCategory)
 router.get('/view-all', getViewAllScreen)
+
+// Path Params Routes
+router.get('/:id', getFoodItemById)
 
 export default router
