@@ -61,32 +61,36 @@ export const getHomeScreen = async (req, res, next) => {
     const tabs = configs.home.tabs
 
     const updatedTabs = await Promise.all(
-      tabs.map(async tab => {
-        const sections = tab._doc.sections
+      tabs.map(async (tab, index) => {
+        if (index === 0) {
+          const sections = tab._doc.sections
 
-        const updatedSections = await Promise.all(
-          sections.map(async section => {
-            if (section.type === SECTION_TYPE.RECOMMENDATION_SECTION) {
-              const data = await FoodItem.find({
-                category: tab.id,
-                isRecommended: true,
-              })
+          const updatedSections = await Promise.all(
+            sections.map(async section => {
+              if (section.type === SECTION_TYPE.RECOMMENDATION_SECTION) {
+                const data = await FoodItem.find({
+                  category: tab.id,
+                  isRecommended: true,
+                })
 
-              return { ...section._doc, data }
-            } else if (section.type === SECTION_TYPE.SEASONAL_SECTION) {
-              const data = await FoodItem.find({
-                category: tab.id,
-                isRecommended: false,
-              })
+                return { ...section._doc, data }
+              } else if (section.type === SECTION_TYPE.SEASONAL_SECTION) {
+                const data = await FoodItem.find({
+                  category: tab.id,
+                  isRecommended: false,
+                })
 
-              return { ...section._doc, data }
-            }
+                return { ...section._doc, data }
+              }
 
-            return section._doc
-          }),
-        )
+              return section._doc
+            }),
+          )
 
-        return { ...tab._doc, sections: updatedSections }
+          return { ...tab._doc, sections: updatedSections }
+        }
+
+        return { id: tab.id, _id: tab._id, displayText: tab.displayText }
       }),
     )
 
