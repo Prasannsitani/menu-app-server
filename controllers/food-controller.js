@@ -69,14 +69,14 @@ export const getHomeScreen = async (req, res, next) => {
             sections.map(async section => {
               if (section.type === SECTION_TYPE.RECOMMENDATION_SECTION) {
                 const data = await FoodItem.find({
-                  category: tab.id,
+                  category: tab.type,
                   isRecommended: true,
                 })
 
                 return { ...section._doc, data }
               } else if (section.type === SECTION_TYPE.SEASONAL_SECTION) {
                 const data = await FoodItem.find({
-                  category: tab.id,
+                  category: tab.type,
                   isRecommended: false,
                 })
 
@@ -90,7 +90,7 @@ export const getHomeScreen = async (req, res, next) => {
           return { ...tab._doc, sections: updatedSections }
         }
 
-        return { id: tab.id, _id: tab._id, displayText: tab.displayText }
+        return { ...tab._doc, sections: [] }
       }),
     )
 
@@ -107,11 +107,11 @@ export const getHomeScreen = async (req, res, next) => {
   }
 }
 
-export const getTabById = async (req, res, next) => {
+export const getTabByType = async (req, res, next) => {
   try {
     const configs = await Config.findOne()
     const tabs = configs.home.tabs
-    const tab = tabs.find(tab => tab.id === req.params.id)
+    const tab = tabs.find(tab => tab.type === req.params.type)
 
     if (tab) {
       const sections = tab._doc.sections
@@ -120,14 +120,14 @@ export const getTabById = async (req, res, next) => {
         sections.map(async section => {
           if (section.type === SECTION_TYPE.RECOMMENDATION_SECTION) {
             const data = await FoodItem.find({
-              category: tab.id,
+              category: tab.type,
               isRecommended: true,
             })
 
             return { ...section._doc, data }
           } else if (section.type === SECTION_TYPE.SEASONAL_SECTION) {
             const data = await FoodItem.find({
-              category: tab.id,
+              category: tab.type,
               isRecommended: false,
             })
 
