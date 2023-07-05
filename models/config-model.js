@@ -1,15 +1,16 @@
 import mongoose from 'mongoose'
 import { FoodSchema } from './food-model.js'
 import { SECTION_TYPE } from '../constants/section-type.js'
+import { CATEGORY } from '../constants/category.js'
 
 const SectionSchema = new mongoose.Schema({
-  id: String,
   type: {
     type: String,
     enum: Object.values(SECTION_TYPE),
     required: true,
   },
   title: String,
+  data: FoodSchema,
   primaryCTA: {
     displayText: String,
     iconUrl: String,
@@ -21,8 +22,16 @@ const SectionSchema = new mongoose.Schema({
 })
 
 const TabSchema = new mongoose.Schema({
-  id: String,
-  displayText: String,
+  type: {
+    type: String,
+    enum: Object.values(CATEGORY),
+    required: true,
+  },
+  imageUrl: String,
+  displayText: {
+    type: String,
+    required: true,
+  },
   sections: [SectionSchema],
 })
 

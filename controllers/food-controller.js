@@ -151,7 +151,7 @@ export const getTabById = async (req, res, next) => {
 
 export const getFoodViewScreen = async (req, res, next) => {
   try {
-    const foodItem = await FoodItem.findById(req.params.id)
+    const foodItem = await FoodItem.find({ id: req.params.id })
     if (foodItem) {
       res.status(200).json({
         data: foodItem,
