@@ -2,3 +2,4 @@
 /.prettierrc
 /.env
 /yarn-error.log
+/service-account-key.json
