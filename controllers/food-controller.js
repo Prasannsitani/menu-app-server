@@ -151,7 +151,10 @@ export const getTabByType = async (req, res, next) => {
 
 export const getFoodViewScreen = async (req, res, next) => {
   try {
-    const foodItem = await FoodItem.find({ id: req.params.id })
+    const foodItem = await FoodItem.find({
+      category: req.params.category,
+      isRecommended: req.query.isRecommended,
+    })
     if (foodItem) {
       res.status(200).json({
         data: foodItem,
@@ -162,8 +165,6 @@ export const getFoodViewScreen = async (req, res, next) => {
         .status(404)
         .json({ error: 'Not Found', userMessage: 'No Data Found!!' })
     }
-
-    console.log({ id })
   } catch (error) {
     res
       .status(500)

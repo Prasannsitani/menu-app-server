@@ -20,6 +20,6 @@ router.get('/view-all', getViewAllScreen)
 // Path Params Routes
 router.get('/:id', getFoodItemById)
 router.get('/tab/:type', getTabByType)
-router.get('/:id/screen', getFoodViewScreen)
+router.get('/:category/screen', getFoodViewScreen)
 
 export default router
