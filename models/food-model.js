@@ -36,6 +36,16 @@ export const FoodSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    price: {
+      value: {
+        type: Number,
+        required: true,
+      },
+      currency: {
+        type: String,
+        required: true,
+      },
+    },
   },
   { timestamps: true },
 )

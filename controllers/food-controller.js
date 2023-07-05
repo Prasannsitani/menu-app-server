@@ -149,7 +149,27 @@ export const getTabById = async (req, res, next) => {
   }
 }
 
-export const getFoodViewScreen = async (req, res, next) => {}
+export const getFoodViewScreen = async (req, res, next) => {
+  try {
+    const foodItem = await FoodItem.findById(req.params.id)
+    if (foodItem) {
+      res.status(200).json({
+        data: foodItem,
+        error: null,
+      })
+    } else {
+      res
+        .status(404)
+        .json({ error: 'Not Found', userMessage: 'No Data Found!!' })
+    }
+
+    console.log({ id })
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error.message, userMessage: 'Something went wrong' })
+  }
+}
 
 export const getViewAllScreen = async (req, res, next) => {
   try {
@@ -174,7 +194,6 @@ export const getViewAllScreen = async (req, res, next) => {
       res.status(404).json({ error: 'Not Found', userMessage: 'No Data Found' })
     }
   } catch (error) {
-    console.log({ error })
     res.status(500).json({
       error: error.message,
       userMessage: 'Something went wrong',
