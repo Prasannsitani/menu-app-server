@@ -39,6 +39,14 @@ app.use((err, req, res, next) => {
   res.status(403).send('CSRF token validation failed')
 })
 
+// Open Endpoint
+app.get('/', (req, res) => {
+  res.json({
+    data: null,
+    error: null,
+  })
+})
+
 // App Routes
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/food', authMiddleware, foodRoutes)
